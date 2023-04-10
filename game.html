@@ -38,11 +38,43 @@
 <script>
    //variables
    const box = document.querySelector('#click-box');
-   var score = 0;
    const scoreDisp = document.querySelector('.score');
+  const timeDisp = document.querySelector('.time');
+ 
+   var score = 0;
+   var seconds = 10;
+   var timer; //store our timer on the global scope
+   var gameRunning = false;
 
+  
+
+   function setTime(){
+      seconds--;
+      timeDisp.textContent = seconds;
+
+      if(seconds == 0){
+         clearInterval(timer);
+         gameRunning = false;
+         box.removeEventListener('click', moveBox);
+        // alert('Game Over');
+         document.querySelector('#game-stage').innerHTML = '<h1>Game Over</h1><div class="start">Play Again?</div>';
+         //start click event:
+         document.querySelector('.start').onclick = function(){
+            location.reload();
+         }
+
+
+      }
+
+
+   }
   //function
 function moveBox(){
+if( gameRunning == false){
+  timer = setInterval(setTime, 1000);
+   gameRunning = true;
+}
+   
    score = score + 1;
    scoreDisp.textContent = score;
 //   alert(score);
